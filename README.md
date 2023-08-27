@@ -1,5 +1,5 @@
 # CNN-image-recognition
-Certainly! Here's an example of how you can implement image recognition using a Convolutional Neural Network (CNN) in Java. In this example, we'll use the Deep Java Library (DJL), an open-source library that provides support for deep learning in Java.
+Certainly! Here's   how you can implement image recognition using a Convolutional Neural Network (CNN) in Java. In this example, we'll use the Deep Java Library (DJL), an open-source library that provides support for deep learning in Java.
 
 To get started, you'll need to include the DJL dependency in your project. You can find the latest version on the DJL GitHub repository.
 
