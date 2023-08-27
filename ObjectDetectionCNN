@@ -1,0 +1,60 @@
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
+import org.deeplearning4j.nn.api.Model;
+import org.deeplearning4j.nn.conf.ConvolutionLayer;
+import org.deeplearning4j.nn.conf.InputPreProcessor;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
+import org.deeplearning4j.nn.conf.layers.SubsamplingLayer;
+import org.deeplearning4j.nn.conf.layers.setup.ConvolutionLayerSetup;
+import org.deeplearning4j.nn.graph.ComputationGraph;
+import org.deeplearning4j.nn.graph.util.ComputationGraphUtil;
+import org.deeplearning4j.optimize.api.IterationListener;
+import org.deeplearning4j.ui.api.UIServer;
+import org.deeplearning4j.ui.storage.FileStatsStorage;
+import org.deeplearning4j.ui.storage.sqlite.J7FileStatsStorage;
+import org.deeplearning4j.ui.storage.sqlite.J7UIStorage;
+
+import java.io.File;
+
+public class ObjectDetectionCNN {
+    public static void main(String[] args) throws Exception {
+        int numClasses = 10; // Number of object classes
+        int height = 28; // Input image height
+        int width = 28; // Input image width
+        int channels = 1; // Number of color channels (grayscale)
+        int batchSize = 64; // Batch size for training
+
+        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+            .list()
+            .layer(new ConvolutionLayer.Builder()
+                .kernelSize(5, 5)
+                .stride(1, 1)
+                .activation(ConvolutionLayer.Activation.RELU)
+                .build())
+            .layer(new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
+                .kernelSize(2, 2)
+                .stride(2, 2)
+                .build())
+            .layer(new OutputLayer.Builder()
+                .nOut(numClasses)
+                .activation(OutputLayer.Activation.SOFTMAX)
+                .build())
+            .build();
+
+        Model model = new org.deeplearning4j.nn.multilayer.MultiLayerNetwork(conf);
+
+        UIServer uiServer = UIServer.getInstance();
+        FileStatsStorage fileStatsStorage = new FileStatsStorage(new File("ui-stats.dl4j"));
+        uiServer.attach(fileStatsStorage);
+
+        IterationListener listener = new org.deeplearning4j.ui.stats.StatsListener(fileStatsStorage);
+        model.setListeners(listener);
+
+        // Load and preprocess your dataset
+        MnistDataSetIterator mnistDataSetIterator = new MnistDataSetIterator(batchSize, true, 12345);
+
+        // Train the model
+        model.fit(mnistDataSetIterator);
+    }
+}
