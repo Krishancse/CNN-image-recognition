@@ -1,5 +1,4 @@
-
-Certainly! Below is an example of a simplified directory structure for a CNN image recognition project on GitHub, along with a basic `README.md` file and a `LICENSE` file using the MIT License:
+ CNN image recognition project 
 
 ### Directory Structure:
 
