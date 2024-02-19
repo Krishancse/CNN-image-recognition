@@ -2,7 +2,7 @@
  <h1 align="center">Hi 👋, I'm Krishan kant</h1>
 <h3 align="center">ai engineer aspirant</h3>
 
-- currently working in quantitative trader and researcher [CNN-image-recognition Public](https://github.com/Krishancse/CNN-image-recognition Public)
+- currently working as ai engineer [CNN-image-recognition Public](https://github.com/Krishancse/CNN-image-recognition Public)
 
 - 🌱 I’m currently learning **machine learning ,trading and research with NumPy, pandas etc**
 
